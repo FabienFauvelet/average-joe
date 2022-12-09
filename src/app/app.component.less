@@ -1,0 +1,10 @@
+#main-content{
+    background-color:var(--surface-a); 
+    border-radius: 3px;
+    router-outlet{
+        flex:0;
+        + *{
+            flex:1; 
+        }
+    }
+}
