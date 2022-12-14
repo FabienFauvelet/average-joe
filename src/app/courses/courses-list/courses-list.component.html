@@ -1,0 +1,30 @@
+<p-table  [value]="courses"  styleClass="p-datatable-striped p-datatable-sm">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 1rem;">ID
+      <th>Date</th>
+      <th>Type</th>
+      <th>Professeur</th>
+      <th>Heure de début</th>
+      <th>Heure de fin</th>
+      <th style="width: 8rem;">Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-course>
+    <tr>
+      <td>{{course.id }}</td>
+      <td>{{course.startDateTime|date :'dd/MM/yy'}}</td>
+      <td>{{course.type}}</td>
+      <td></td>
+      <td>{{course.startDateTime|date :'HH:mm:ss'}}</td>
+      <td>{{course.endDateTime|date :'HH:mm:ss'}}</td>
+      <td>
+        <button pButton type="button" (click)="editCourse(course)" icon="pi pi-pencil" class="p-button p-button-rounded p-button-icon-only"></button>
+        <button pButton type="button" (click)="deleteCourse(course)" icon="pi pi-trash"  class="p-button p-button-rounded p-button-icon-only p-button-danger"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-dialog header="Modification du cours #{{courseToEdit?.id}}" [(visible)]="displayEditModal" [modal]="true" [style]="{width: '50vw'}">
+  <app-update-course [course]="courseToEdit"></app-update-course>
+</p-dialog>
