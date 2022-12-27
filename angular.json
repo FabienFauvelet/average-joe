@@ -72,7 +72,8 @@
               "browserTarget": "average-joe:build:production"
             },
             "development": {
-              "browserTarget": "average-joe:build:development"
+              "browserTarget": "average-joe:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

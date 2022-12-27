@@ -6,8 +6,12 @@ import { AddCourseComponent } from './add-course/add-course.component';
 import { UpdateCourseComponent } from './update-course/update-course.component';
 import {ButtonModule} from "primeng/button";
 import {DialogModule} from 'primeng/dialog';
-
-
+import {ReactiveFormsModule} from "@angular/forms";
+import {CalendarModule} from 'primeng/calendar';
+import {DropdownModule} from 'primeng/dropdown';
+import {InputNumberModule} from 'primeng/inputnumber';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -15,11 +19,17 @@ import {DialogModule} from 'primeng/dialog';
     AddCourseComponent,
     UpdateCourseComponent,
   ],
-  imports: [
-    CommonModule,
-    TableModule,
-    ButtonModule,
-    DialogModule
-  ]
+    imports: [
+        CommonModule,
+        TableModule,
+        ButtonModule,
+        DialogModule,
+        ReactiveFormsModule,
+        CalendarModule,
+        DropdownModule,
+        InputNumberModule,
+        NgxJsonViewerModule,
+      HttpClientModule
+    ]
 })
 export class CoursesModule { }
