@@ -1,0 +1,50 @@
+<h1>Ajouter un client</h1>
+<form [formGroup]="form" class="flex flex-column" (submit)="submitForm($event)" >
+
+  <p-panel header="Information générale">
+    <div class="flex flex-row mt-2">
+      <span class="p-float-label">
+        <input id="first-name" formControlName="firstName" type="text" pInputText>
+        <label for="first-name">Prénom</label>
+      </span>
+      <span class="p-float-label">
+        <input id="last-name" formControlName="lastName" type="text" pInputText>
+        <label for="last-name">Nom</label>
+      </span>
+      <span class="p-float-label mr-2 w-2">
+        <p-calendar styleClass="w-full" formControlName="birthDate" [maxDate]="maxDate" [dateFormat]="'dd/mm/yy'" [firstDayOfWeek]="1"></p-calendar>
+        <label for="birthDate">Date de naissance</label>
+      </span>
+    </div>
+  </p-panel>
+  <p-panel header="Adresse" formGroupName="address">
+    <div class="flex flex-row mt-2 mb-5">
+      <span class="p-float-label">
+        <input id="number" formControlName="number" type="text" pInputText>
+        <label for="number">Numéro de rue</label>
+      </span>
+      <span class="p-float-label">
+        <input id="street" formControlName="street" type="text" pInputText>
+        <label for="street">Rue</label>
+      </span>
+    </div>
+    <div class="flex flex-row mt-2">
+      <span class="p-float-label">
+        <input id="postal-code" formControlName="postalCode" type="text" pInputText>
+        <label for="postal-code">Code postal</label>
+      </span>
+      <span class="p-float-label">
+        <input id="city" formControlName="city" type="text" pInputText>
+        <label for="city">Ville</label>
+      </span>
+    </div>
+  </p-panel>
+
+  <p-button [disabled]="!form.valid" class="mt-5" label="Valider" type="submit"></p-button>
+</form>
+
+
+<h2 class="mt-6">Inspection du formulaire</h2>
+<div class="mb-2" [style]="{backgroundColor :'white'}">
+  <ngx-json-viewer [json]="form.getRawValue()"></ngx-json-viewer>
+</div>

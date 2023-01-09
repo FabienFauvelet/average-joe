@@ -1,0 +1,18 @@
+<h1>Ajouter un ressource</h1>
+<form [formGroup]="form" class="flex flex-column" (submit)="submitForm($event)" >
+  <p-panel header="Information générale">
+    <div class="flex flex-row mt-2">
+      <span class="p-float-label">
+        <input id="name" formControlName="name" type="text" pInputText>
+        <label for="name">Nom</label>
+      </span>
+    </div>
+  </p-panel>
+  <p-button [disabled]="!form.valid" class="mt-5" label="Valider" type="submit"></p-button>
+</form>
+
+
+<h2 class="mt-6">Inspection du formulaire</h2>
+<div class="mb-2" [style]="{backgroundColor :'white'}">
+  <ngx-json-viewer [json]="form.getRawValue()"></ngx-json-viewer>
+</div>
