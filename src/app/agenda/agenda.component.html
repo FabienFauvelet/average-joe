@@ -1,3 +1,15 @@
 
 <p>Affichage de l'agenda d'un(e) {{typeAgenda}}</p>
 <full-calendar [options]="calendarOptions" ></full-calendar>
+<p-dialog header="Cours #{{diplayedCourse?.id}}" [(visible)]="diplayePopUp" [modal]="true" [style]="{width: '20vw'}" >
+
+
+  <img alt="image session" src="https://via.placeholder.com/350x150.png" width="100%"/>
+  <ul>
+    <li><span>Catégorie :</span></li>
+    <li><span>Date :</span></li>
+    <li><span>Heure de début : </span></li>
+    <li><span>Heure de fin :</span></li>
+    <li><span>Professeur pour cette séance :</span></li>
+  </ul>
+</p-dialog>

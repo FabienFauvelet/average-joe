@@ -10,21 +10,29 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { TableModule } from "primeng/table";
 import { CoursesModule } from './courses/courses.module';
 import {ButtonModule} from "primeng/button";
+import {CustomersModule} from "./customers/customers.module";
+import {TeachersModule} from "./teachers/teachers.module";
+import {ResourcesModule} from "./resources/resources.module";
+import {DialogModule} from "primeng/dialog";
 
 @NgModule({
   declarations: [
     AppComponent,
     AgendaComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MenuModule,
-    BrowserAnimationsModule,
-    FullCalendarModule,
-    CoursesModule,
-    ButtonModule
-  ],exports:[TableModule],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        MenuModule,
+        BrowserAnimationsModule,
+        FullCalendarModule,
+        CoursesModule,
+        CustomersModule,
+        TeachersModule,
+        ResourcesModule,
+        ButtonModule,
+        DialogModule
+    ],exports:[TableModule],
   providers: [],
   bootstrap: [AppComponent]
 })

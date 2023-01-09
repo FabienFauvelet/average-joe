@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import {Observable, of} from "rxjs";
 import {Course} from "../courses/models/course";
+import {HttpClient} from "@angular/common/http";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AgendaService {
 
-  constructor() { }
+
+  constructor(private http: HttpClient) { }
 
   getCustomerCoursesList(customerId : string, startDate:Date, endDate:Date) : Observable<Course[]> {
 
@@ -75,6 +78,7 @@ export class AgendaService {
     date.setMinutes(minutes);
     return date;
   }
+
 
 
 }

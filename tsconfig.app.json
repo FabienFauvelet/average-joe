@@ -6,7 +6,8 @@
     "types": []
   },
   "files": [
-    "src/main.ts"
+    "src/main.ts",
+    "src/app/customers/services/customer.ts"
   ],
   "include": [
     "src/**/*.d.ts"

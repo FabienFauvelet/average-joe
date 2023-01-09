@@ -9,12 +9,11 @@ import {Course} from "../models/course";
 })
 export class CoursesListComponent implements OnInit{
 
-  coursesService : CoursesService;
   courses: Course[]=[];
   displayEditModal: boolean = false;
   courseToEdit: Course | undefined;
-  constructor(coursesService: CoursesService) {
-    this.coursesService = coursesService;
+
+  constructor(private coursesService: CoursesService) {
   }
 
   ngOnInit(): void {

@@ -1,45 +1,55 @@
 <h1>Ajouter un cours</h1>
-<form [formGroup]="form" class="flex flex-column" (submit)="submitForm($event)">
-  <div class="flex flex-row mt-2">
-    <span class="p-float-label  mr-2">
-      <p-calendar formControlName="startDateTime" (onSelect)="onStartDateChange($event)" [showTime]="true"
-                [hourFormat]="'24'"></p-calendar>
-      <label for="startDateTime">Date de début</label>
-    </span>
-    <span class="p-float-label">
-      <p-calendar formControlName="endDateTime" [showTime]="true" [hourFormat]="'24'"></p-calendar>
-      <label for="endDateTime">Date de fin</label>
-    </span>
-  </div>
-  <div class="flex-row mt-5">
-  <span class="p-float-label">
-  <p-dropdown formControlName="teacherId" [options]="teachers" optionLabel="label" optionValue="id"  placeholder="Coach"></p-dropdown>
-    <label for="teacherId">Coach</label>
-    </span>
-  </div>
-  <div class="flex-row mt-5">
-    <span class="p-float-label">
-    <p-inputNumber formControlName="nbMaxParticipant" [showButtons]="true" buttonLayout="horizontal"
-                   spinnerMode="horizontal" [min]="0"
-                   decrementButtonClass="p-button" decrementButtonIcon="pi pi-minus"
-                   incrementButtonClass="p-button" incrementButtonIcon="pi pi-plus"></p-inputNumber>
-      <label for="nbMaxParticipant">Nombre maximum de participant</label>
-    </span>
-  </div>
-  <div formArrayName="reservedResources">
-    <div class="flex flex-row mb-5 ">
-      <h2 class="flex w-20rem align-items-center">Ressources réservées</h2>
-      <p-button type="button" (click)="addResource()" label="Ajouter une ressource" styleClass="p-button-sm" class="flex w-15rem align-items-center"></p-button>
+<form [formGroup]="form" class="flex flex-column" (submit)="submitForm($event)" >
+
+  <p-panel header="Détails du cours">
+    <div class="flex flex-row mt-2">
+      <span class="p-float-label mr-2 w-2">
+        <p-calendar styleClass="w-full" formControlName="startDateTime" (onSelect)="onStartDateChange($event)" [showTime]="true"
+                  [hourFormat]="'24'" [dateFormat]="'dd/mm/yy'" [firstDayOfWeek]="1"></p-calendar>
+        <label for="startDateTime">Date de début</label>
+      </span>
+      <span class="p-float-label w-2">
+        <p-calendar styleClass="w-full" formControlName="endDateTime" [showTime]="true" [hourFormat]="'24'"
+                    [dateFormat]="'dd/mm/yy'" [firstDayOfWeek]="1"></p-calendar>
+        <label for="endDateTime">Date de fin</label>
+      </span>
     </div>
-    <span class="p-float-label" *ngFor="let resource of reservedResources.controls; let i=index">
+
+    <div class="flex flex-row mt-5">
+      <span class="p-float-label mr-2 w-2">
+        <p-dropdown styleClass="w-full" formControlName="teacherId" [options]="teachers" optionLabel="label" optionValue="id"  placeholder="Coach"></p-dropdown>
+        <label for="teacherId">Coach</label>
+      </span>
+      <span class="p-float-label w-2">
+        <p-inputNumber formControlName="nbMaxParticipant" [showButtons]="true" buttonLayout="horizontal"
+                       spinnerMode="horizontal" [min]="0" inputStyleClass="w-full"
+                       decrementButtonClass="p-button" decrementButtonIcon="pi pi-minus"
+                       incrementButtonClass="p-button" incrementButtonIcon="pi pi-plus"></p-inputNumber>
+        <label for="nbMaxParticipant">Nb. max. participant(s)</label>
+      </span>
+    </div>
+  </p-panel>
+
+
+  <p-panel formArrayName="reservedResources" styleClass="test" header="Ressources réservées">
+    <ng-template pTemplate="icons">
+      <p-button type="button" (click)="addResource()"  class="p-panel-header-icon p-link" [icon]="'pi pi-plus'"></p-button>
+    </ng-template>
+
+    <span class="p-float-label mt-3 " [ngClass]="reservedResources.controls.length===i+1?'mb-3':'mb-5'" *ngFor="let resource of reservedResources.controls; let i=index">
       <p-dropdown [formControlName]="i" [options]="resources" optionLabel="id" optionValue="id"  placeholder="Ressource"></p-dropdown>
       <label for="reservedResources-{{i}}">Ressource {{i+1}}</label>
       <p-button type="button" (click)="deleteResource(i)" icon="pi pi-times" styleClass="ml-2 p-button-danger"></p-button>
-
     </span>
-  </div>
+
+    <p *ngIf="reservedResources.controls.length==0">Aucune ressource réservée pour le moment</p>
+  </p-panel>
+
   <p-button [disabled]="!form.valid" class="mt-5" label="Valider" type="submit"></p-button>
 </form>
-<div [style]="{backgroundColor :'white'}">
+
+
+<h2 class="mt-6">Inspection du formulaire</h2>
+<div class="mb-2" [style]="{backgroundColor :'white'}">
   <ngx-json-viewer [json]="form.getRawValue()"></ngx-json-viewer>
 </div>
