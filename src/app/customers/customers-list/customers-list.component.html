@@ -1,7 +1,7 @@
 <p-table  [value]="customers"  styleClass="p-datatable-striped p-datatable-sm">
   <ng-template pTemplate="header">
     <tr>
-      <th style="width: 1rem;">ID</th>
+      <th style="width: 20rem;">ID</th>
       <th>Prénom</th>
       <th>Nom</th>
       <th>Date de naissance</th>
@@ -12,10 +12,10 @@
   <ng-template pTemplate="body" let-customer>
     <tr>
       <td>{{customer.id }}</td>
-      <td>{{customer.firstName}}</td>
-      <td>{{customer.lastName}}</td>
-      <td>{{customer.birthDate |date :'dd/MM/yyy'}}</td>
-      <td>{{customer.address.number}} {{customer.address.street}} {{customer.address.postalCode}} {{customer.address.city}}</td>
+      <td>{{customer.firstname}}</td>
+      <td>{{customer.lastname}}</td>
+      <td>{{customer.birthdate |date :'dd/MM/yyy'}}</td>
+      <td>{{customer.address}}</td>
       <td>
         <button pButton type="button" (click)="editCustomer(customer)" icon="pi pi-pencil" class="p-button p-button-rounded p-button-icon-only"></button>
         <button pButton type="button" (click)="deleteCustomer(customer)" icon="pi pi-trash"  class="p-button p-button-rounded p-button-icon-only p-button-danger"></button>

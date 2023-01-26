@@ -21,15 +21,16 @@ export class CustomersService {
   constructor(private http: HttpClient) { }
 
   getCustomersList() : Observable<Customer[]> {
-    return of([
+    return this.http.get<Customer[]>("/query/customers");
+    /*return of([
       {
         id:"bcb4c68e-28bc-462f-a6d1-26a2f7e789c7", firstName:"John", lastName:"Doe", birthDate:new Date('1990-01-05'),
         address:{number:"5", street:"rue du petit pont", postalCode:"37000",city:"TOURS"}
       },
-    ]);
+    ]);*/
   }
   addCustomer(createCustomerCommand : CreateCustomerCommand) : Observable<any>{
-    return this.http.post<any>("http://localhost:4200/customers", createCustomerCommand);
+    return this.http.post<any>("/command/customers", createCustomerCommand);
   }
 }
 

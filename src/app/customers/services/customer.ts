@@ -6,8 +6,8 @@ interface Address{
 }
 interface Customer {
   id:string;
-  firstName:string;
-  lastName:string;
-  birthDate:Date;
-  address: Address;
+  firstname:string;
+  lastname:string;
+  birthdate:Date;
+  address: string;
 }
