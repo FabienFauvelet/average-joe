@@ -10,8 +10,8 @@
   <ng-template pTemplate="body" let-teacher>
     <tr>
       <td>{{teacher.id }}</td>
-      <td>{{teacher.firstName}}</td>
-      <td>{{teacher.lastName}}</td>
+      <td>{{teacher.firstname}}</td>
+      <td>{{teacher.lastname}}</td>
       <td>
         <button pButton type="button" (click)="editTeacher(teacher)" icon="pi pi-pencil" class="p-button p-button-rounded p-button-icon-only"></button>
         <button pButton type="button" (click)="deleteTeacher(teacher)" icon="pi pi-trash"  class="p-button p-button-rounded p-button-icon-only p-button-danger"></button>
