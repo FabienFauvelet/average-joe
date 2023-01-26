@@ -14,6 +14,10 @@ import {CustomersModule} from "./customers/customers.module";
 import {TeachersModule} from "./teachers/teachers.module";
 import {ResourcesModule} from "./resources/resources.module";
 import {DialogModule} from "primeng/dialog";
+import {ToastModule} from "primeng/toast";
+import {MessageService} from "primeng/api";
+import {DropdownModule} from "primeng/dropdown";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -31,9 +35,12 @@ import {DialogModule} from "primeng/dialog";
         TeachersModule,
         ResourcesModule,
         ButtonModule,
-        DialogModule
+        DialogModule,
+        ToastModule,
+        DropdownModule,
+        FormsModule
     ],exports:[TableModule],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
