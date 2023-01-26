@@ -1,15 +1,30 @@
 
-<p>Affichage de l'agenda d'un(e) {{typeAgenda}}</p>
-<full-calendar [options]="calendarOptions" ></full-calendar>
+<p>Affichage de l'agenda d'un(e) {{typeAgenda}} avec l'id :</p>
+<p-dropdown styleClass="w-full" [options]="objects" optionLabel="label" optionValue="id"  placeholder="Identifiant"
+             (onChange)="loadEvent($event)"></p-dropdown>
+
+<full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
 <p-dialog header="Cours #{{diplayedCourse?.id}}" [(visible)]="diplayePopUp" [modal]="true" [style]="{width: '20vw'}" >
 
 
   <img alt="image session" src="https://via.placeholder.com/350x150.png" width="100%"/>
   <ul>
-    <li><span>Catégorie :</span></li>
-    <li><span>Date :</span></li>
-    <li><span>Heure de début : </span></li>
-    <li><span>Heure de fin :</span></li>
-    <li><span>Professeur pour cette séance :</span></li>
+    <li><span>Catégorie : </span>{{diplayedCourse?.name}}</li>
+    <li><span>Date : </span>{{diplayedCourse?.startDate | date : 'dd/MM/yyy'}}</li>
+    <li><span>Heure de début : </span>{{diplayedCourse?.startDate | date : 'HH:mm'}}</li>
+    <li><span>Heure de fin : </span>{{diplayedCourse?.endDate | date : 'HH:mm'}}</li>
+    <li *ngIf="typeAgenda!='professeur'"><span>Professeur pour cette séance :</span> {{diplayedCourse?.teacherFirstname}} {{diplayedCourse?.teacherLastname}}</li>
+    <li *ngIf="typeAgenda=='professeur'">
+      <span>Ressources réservées :</span>
+      <ul>
+        <li *ngFor="let resource of diplayedCourse?.resources">{{resource}}</li>
+      </ul>
+    </li>
+    <li *ngIf="typeAgenda=='professeur'">
+      <span>Inscrit(e)(s) :</span>
+      <ul>
+        <li *ngFor="let customer of diplayedCourse?.customers">{{customer}}</li>
+      </ul>
+    </li>
   </ul>
 </p-dialog>

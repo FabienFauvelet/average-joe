@@ -7,6 +7,10 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import {AgendaService} from "./agenda.service";
+import {MessageService} from "primeng/api";
+import {CustomersService} from "../customers/services/customers.service";
+import {TeachersService} from "../teachers/services/teachers.service";
+import {ResourcesService} from "../resources/services/resources.service";
 
 @Component({
   selector: 'app-agenda',
@@ -15,10 +19,9 @@ import {AgendaService} from "./agenda.service";
 })
 export class AgendaComponent implements OnInit {
   @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent | undefined;
-  agendaService: AgendaService;
 
-  constructor(private route: ActivatedRoute, agendaService: AgendaService) {
-    this.agendaService = agendaService;
+  constructor(private route: ActivatedRoute, private agendaService: AgendaService, private messageService: MessageService,
+              private customersService: CustomersService, private teachersService: TeachersService, private resourcesService : ResourcesService ) {
   }
 
   typeAgenda: string = "";
@@ -41,19 +44,40 @@ export class AgendaComponent implements OnInit {
     contentHeight: 'auto',
     weekText: 'test',
     buttonText: {today: 'Aujourd\'hui', month: 'Mois', week: 'Semaine', list: 'Liste'},
-    dayHeaderFormat: {hour12: false,},
+    views:{timeGridWeek:{dayHeaderFormat: {hour12: false},scrollTime: '08:00:00'}},
     locale: 'fr',
     eventSources: [this.fetchEvents.bind(this)],
-    scrollTime: '08:00:00',
     eventClick : this.eventClick.bind(this)
   };
   events: any[] = [];
   diplayedCourse: any;
   diplayePopUp: boolean = false;
+  objects: any[]= [];
+  selectedObjectId: any;
 
 
   ngOnInit() {
     this.typeAgenda = this.route.snapshot.url[0].path;
+    switch (this.typeAgenda) {
+      case 'client': {
+        this.customersService.getCustomersList().subscribe(
+          value => this.objects=value.map(item => ({id:item.id, label:item.firstname+' '+item.lastname}))
+        );
+        break;
+      }
+      case 'ressource': {
+        this.resourcesService.getResourcesList().subscribe(
+          value => this.objects=value.map(item => ({id:item.id, label:item.name}))
+        );
+        break;
+      }
+      case 'professeur': {
+        this.teachersService.getTeachersList().subscribe(
+          value => this.objects=value.map(item => ({id:item.id, label:item.firstname+' '+item.lastname}))
+        );
+        break;
+      }
+    }
   }
   eventClick(eventClickArg : EventClickArg){
     console.log(eventClickArg.event.id);
@@ -63,33 +87,38 @@ export class AgendaComponent implements OnInit {
 
   }
   fetchEvents(info: any, successCallback: any, failureCallback: any) {
+    console.log("plip");
     switch (this.typeAgenda) {
       case 'client': {
-        return this.agendaService.getCustomerCoursesList("fakeid", info.start, info.end).subscribe(
-          value => {
-            this.events=value;
+        return this.agendaService.getCustomerCoursesList(this.selectedObjectId, info.start, info.end).subscribe({
+          next: (value) => {
+            this.events = value;
             successCallback(value.map(
-              toMap => ({id:toMap.id,title: 'Cours de ' + toMap.type, start: toMap.startDateTime, end: toMap.endDateTime})
+              toMap => ({id: toMap.id, title: 'Cours de ' + toMap.name, start: toMap.startDate, end: toMap.endDate})
             ))
-          }
-        );
+          },error: (error) => this.messageService.add({
+            severity: 'error',
+            summary: 'Une erreur est survenue',
+            detail: 'Erreur lors de l\'appel au service de récupération des agendas :' + error.status + ' ' + error.statusText
+          })
+        });
       }
       case 'ressource': {
-        return this.agendaService.getResourceCoursesList("fakeid", info.start, info.end).subscribe(
+        return this.agendaService.getResourceCoursesList(this.selectedObjectId, info.start, info.end).subscribe(
           value => {
             this.events=value;
             successCallback(value.map(
-              toMap => ({id:toMap.id,title: 'Cours de ' + toMap.type, start: toMap.startDateTime, end: toMap.endDateTime})
+              toMap => ({id:toMap.id,title: 'Cours de ' + toMap.name, start: toMap.startDate, end: toMap.endDate})
             ))
           }
         );
       }
       case 'professeur': {
-        return this.agendaService.getTeacherCoursesList("fakeid", info.start, info.end).subscribe(
+        return this.agendaService.getTeacherCoursesList(this.selectedObjectId, info.start, info.end).subscribe(
           value => {
             this.events=value;
             successCallback(value.map(
-              toMap => ({id:toMap.id,title: 'Cours de ' + toMap.type, start: toMap.startDateTime, end: toMap.endDateTime})
+              toMap => ({id:toMap.id,title: 'Cours de ' + toMap.name, start: toMap.startDate, end: toMap.endDate})
             ))
           }
         );
@@ -97,5 +126,10 @@ export class AgendaComponent implements OnInit {
       default:
         return [];
     }
+  }
+
+  loadEvent(event: any) {
+    this.selectedObjectId=event.value;
+    this.fullcalendar?.getApi().refetchEvents();
   }
 }
