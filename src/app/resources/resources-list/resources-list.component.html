@@ -6,13 +6,13 @@
       <th>Actions</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-resource>
+  <ng-template pTemplate="body" let-resource let-rowIndex="rowIndex">
     <tr>
       <td>{{resource.id }}</td>
       <td>{{resource.name}}</td>
       <td>
         <button pButton type="button" (click)="editResource(resource)" icon="pi pi-pencil" class="p-button p-button-rounded p-button-icon-only"></button>
-        <button pButton type="button" (click)="deleteResource(resource)" icon="pi pi-trash"  class="p-button p-button-rounded p-button-icon-only p-button-danger"></button>
+        <button pButton type="button" (click)="deleteResource(resource,rowIndex)" icon="pi pi-trash"  class="p-button p-button-rounded p-button-icon-only p-button-danger"></button>
       </td>
     </tr>
   </ng-template>

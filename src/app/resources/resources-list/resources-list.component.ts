@@ -7,7 +7,7 @@ import {ResourcesService} from "../services/resources.service";
   styleUrls: ['./resources-list.component.less']
 })
 export class ResourcesListComponent implements OnInit{
-  resources: any;
+  resources: any[]=[];
 
   constructor(private resourcesService : ResourcesService) {
   }
@@ -21,8 +21,10 @@ export class ResourcesListComponent implements OnInit{
 
   }
 
-  deleteResource(resource: any) {
-
+  deleteResource(resource: any, rowIndex: any) {
+    this.resourcesService.deleteResource(resource.id).subscribe(
+      value => this.resources.splice(rowIndex,1)
+    );
   }
 
 

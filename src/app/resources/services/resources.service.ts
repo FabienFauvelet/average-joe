@@ -26,4 +26,8 @@ export class ResourcesService {
   addResource(createResourceCommand : CreateResourceCommand) : Observable<any> {
     return this.http.post<any>("/command/resources", createResourceCommand);
   }
+
+  deleteResource(id:string) : Observable<any> {
+    return this.http.delete<any>("/command/resources/"+id);
+  }
 }
