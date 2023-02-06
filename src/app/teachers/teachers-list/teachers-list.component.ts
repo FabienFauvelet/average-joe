@@ -7,7 +7,7 @@ import {TeachersService} from "../services/teachers.service";
   styleUrls: ['./teachers-list.component.less']
 })
 export class TeachersListComponent implements OnInit{
-  teachers: any;
+  teachers: any[]=[];
 
   constructor(private teachersService:TeachersService) {
   }
@@ -22,7 +22,9 @@ export class TeachersListComponent implements OnInit{
 
   }
 
-  deleteTeacher(teacher: any) {
-
+  deleteTeacher(teacher: any, rowIndex: any) {
+    this.teachersService.deleteTeacher(teacher.id).subscribe(
+      value => this.teachers.splice(rowIndex,1)
+    );
   }
 }

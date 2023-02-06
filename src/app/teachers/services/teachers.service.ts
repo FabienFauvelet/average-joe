@@ -28,4 +28,8 @@ export class TeachersService {
   addTeacher(createTeacherCommand : CreateTeacherCommand) : Observable<any>{
     return this.http.post<any>("/command/teachers", createTeacherCommand);
   }
+
+  deleteTeacher(id:string) : Observable<any>{
+    return this.http.delete<any>("/command/teachers/"+id);
+  }
 }
