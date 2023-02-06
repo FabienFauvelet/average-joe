@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import {firstValueFrom, map, Observable, of} from 'rxjs';
 import {Course} from "../models/course";
 import {HttpClient} from "@angular/common/http";
 
@@ -10,10 +10,19 @@ interface CreateEventCommand {
   reservedResources?:string[] | null;
   nbMaxParticipant?:number | null;
 }
+interface UpdateEventCommand {
+  id?:string|null;
+  startDateTime?:Date | null;
+  endDateTime?:Date | null;
+  teacherId?:string | null;
+  reservedResources?:string[] | null;
+  nbMaxParticipant?:number | null;
+  participants?:string[] | null;
+}
 interface Teacher {
   id:string;
-  firstName:string;
-  lastName:string;
+  firstname:string;
+  lastname:string;
 }
 interface Resource {
   id:string;
@@ -28,7 +37,19 @@ export class CoursesService {
   constructor(private http: HttpClient) { }
 
   getCoursesList() : Observable<Course[]> {
-    return this.http.get<Course[]>("/query/courses");
+    return this.http.get<Course[]>("/query/courses/full")
+      .pipe(
+        map<Course[],Course[]>(
+          courses => {
+            courses.forEach(course => {
+              course.startDate = new Date(course.startDate);
+              course.endDate = new Date(course.endDate);
+            });
+            return courses;
+          }
+        )
+      );
+
     /*return of([
       {id:"bcb4c68e-28bc-462f-a6d1-26a2f7e789c7", type:"Fitness", startDateTime:new Date('2023-01-05T11:00:00'), endDateTime:new Date('2023-01-05T12:00:00')},
       {id:"a54822ad-c2ef-46ab-92a4-780f800912c7", type:"Musculation", startDateTime:new Date('2023-01-08T16:00:00'), endDateTime:new Date('2023-01-08T17:00:00')},
@@ -59,4 +80,11 @@ export class CoursesService {
     return this.http.post<any>("/command/events", body);
   }
 
+  deleteCourse(id: string) {
+    return this.http.delete<any>("/command/events/"+id);
+  }
+
+  updateCourse(body : UpdateEventCommand) {
+    return this.http.put<any>("/command/events", body);
+  }
 }

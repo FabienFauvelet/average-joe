@@ -1,16 +1,86 @@
 <p>update-course works! ID : {{course?.id}}</p>
-<form>
+<form  *ngIf="form!=undefined" [formGroup]="form" class="flex flex-column" (submit)="submitForm($event)" >
 
+  <p-panel header="Détails du cours">
+    <div class="flex flex-row mt-2">
+      <span class="p-float-label mr-2 w-6">
+        <p-calendar styleClass="w-full" formControlName="startDateTime" (onSelect)="onStartDateChange($event)" [showTime]="true"
+                    [hourFormat]="'24'" [dateFormat]="'dd/mm/yy'" [firstDayOfWeek]="1"></p-calendar>
+        <label for="startDateTime">Date de début</label>
+      </span>
+      <span class="p-float-label w-6">
+        <p-calendar styleClass="w-full" formControlName="endDateTime" [showTime]="true" [hourFormat]="'24'"
+                    [dateFormat]="'dd/mm/yy'" [firstDayOfWeek]="1"></p-calendar>
+        <label for="endDateTime">Date de fin</label>
+      </span>
+    </div>
+
+    <div class="flex flex-row mt-5">
+      <span class="p-float-label mr-2 w-6">
+        <p-dropdown styleClass="w-full" formControlName="teacherId" [options]="teachers" optionLabel="label" optionValue="id"  placeholder="Coach"></p-dropdown>
+        <label for="teacherId">Coach</label>
+      </span>
+      <span class="p-float-label w-6">
+        <p-inputNumber formControlName="nbMaxParticipant" [showButtons]="true" buttonLayout="horizontal"
+                       spinnerMode="horizontal" [min]="0" inputStyleClass="w-full"
+                       decrementButtonClass="p-button" decrementButtonIcon="pi pi-minus"
+                       incrementButtonClass="p-button" incrementButtonIcon="pi pi-plus"></p-inputNumber>
+        <label for="nbMaxParticipant">Nb. max. participant(s)</label>
+      </span>
+    </div>
+  </p-panel>
+
+
+  <p-panel formArrayName="reservedResources" styleClass="test" header="Ressources réservées">
+    <ng-template pTemplate="icons">
+      <p-button type="button" (click)="addResource()"  class="p-panel-header-icon p-link" [icon]="'pi pi-plus'"></p-button>
+    </ng-template>
+
+    <span class="p-float-label mt-3 " [ngClass]="reservedResources.controls.length===i+1?'mb-3':'mb-5'" *ngFor="let resource of reservedResources.controls; let i=index">
+      <p-dropdown [formControlName]="i" [options]="resources" optionLabel="label" optionValue="id"  placeholder="Ressource"></p-dropdown>
+      <label for="reservedResources-{{i}}">Ressource {{i+1}}</label>
+      <p-button type="button" (click)="deleteResource(i)" icon="pi pi-times" styleClass="ml-2 p-button-danger"></p-button>
+    </span>
+
+    <p *ngIf="reservedResources.controls.length==0">Aucune ressource réservée pour le moment</p>
+  </p-panel>
+
+  <p-panel styleClass="test" header="Participants">
+    <ng-template pTemplate="icons">
+      <p-button type="button" (click)="addParticipant()"  class="p-panel-header-icon p-link" [icon]="'pi pi-plus'"></p-button>
+    </ng-template>
+  <p-table  formArrayName="participants" [value]="participants.controls"  styleClass="p-datatable-striped p-datatable-sm" tableStyleClass="pb-8" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 20rem;">ID
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th style="width: 8rem;">Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-participant let-rowIndex="rowIndex" >
+      <tr>
+        <td>
+          <p-autoComplete [formControlName]="rowIndex" [suggestions]="filteredCustomers" (completeMethod)="search($event)" [forceSelection]="true" field="id">
+                          <!--*ngIf="participants.controls[rowIndex].value==null; else elseBlock"->-->
+          </p-autoComplete>
+          <ng-template #elseBlock>{{participant.getRawValue()?.id}}</ng-template>
+        </td>
+        <td>{{participant.getRawValue()?.firstname}}</td>
+        <td>{{participant.getRawValue()?.lastname}}</td>
+        <td>
+          <button pButton type="button" (click)="deleteParticipant(rowIndex)" icon="pi pi-trash"  class="p-button p-button-rounded p-button-icon-only p-button-danger"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  </p-panel>
+  <p-button [disabled]="!form?.valid" class="mt-5" label="Valider" type="submit"></p-button>
 </form>
 
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras semper lacinia enim, at iaculis odio sodales a. Quisque vitae nisl sed dui scelerisque feugiat. Vivamus sagittis ligula elit, sed placerat quam consequat eu. Nulla facilisi. Donec ullamcorper, libero ac vulputate finibus, ante magna ullamcorper nunc, vel venenatis lorem ante nec nisi. Integer condimentum mollis ligula. Vestibulum rhoncus quam arcu, ac fermentum dolor ullamcorper ullamcorper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi.
-</p>
-<p>Ut a pharetra purus, id rhoncus neque. Duis quis tellus eget risus malesuada tincidunt id at felis. Donec et elementum elit. Maecenas elementum, eros a malesuada pellentesque, purus lorem fringilla ipsum, ac ultrices tortor augue eget ante. Interdum et malesuada fames ac ante ipsum primis in faucibus. In vel ligula in nulla posuere luctus id ut odio. Proin quis velit nibh. Vivamus leo justo, luctus at scelerisque in, bibendum et mauris. Sed porttitor nisl lacus, nec facilisis nisl pellentesque a.
-</p>
-<p>Vivamus dignissim ex vitae augue maximus, vel euismod diam viverra. Vestibulum vitae scelerisque ante. Morbi non urna id nunc gravida bibendum nec a enim. Pellentesque efficitur lorem nisi, eget placerat orci tempus et. Donec cursus, nisi eu finibus dictum, lectus ipsum mattis risus, sed iaculis ante nisl vulputate lacus. Vestibulum id nulla et dolor sodales ultrices. Aliquam ac egestas magna. Nunc vitae hendrerit quam, vitae varius nulla. Sed a consectetur orci.
-</p>
-<p>Donec eu leo eu odio venenatis tempor. Nam varius venenatis metus laoreet varius. Sed non sapien dolor. Curabitur ac nisi quis justo consequat suscipit. Sed tempor diam ante, et varius metus aliquet non. Praesent tempus, felis quis pharetra vestibulum, justo urna mattis ligula, ac dapibus nunc nibh mollis est. Cras feugiat quam quis fringilla vulputate. Suspendisse sit amet turpis est. Proin nisl neque, congue interdum urna sed, fringilla auctor quam.
-</p>
-<p>Suspendisse non ligula purus. Morbi elementum dictum tortor, a dictum nisi posuere eget. In vehicula aliquet efficitur. Morbi lobortis, libero et viverra finibus, sapien magna pharetra justo, id vehicula quam lectus vel elit. Aliquam augue nisl, commodo sed aliquam at, rutrum vel est. Sed leo sem, maximus vel eros non, volutpat blandit ligula. Proin dignissim rutrum efficitur. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Etiam mollis, sapien ac varius facilisis, ex felis condimentum tortor, et maximus tortor erat eget nibh. Phasellus tempus elementum risus, a malesuada justo lacinia facilisis. Aliquam ligula tortor, condimentum non tempus eget, volutpat in libero. Suspendisse potenti. Vivamus eu sem sed justo rutrum lobortis id et elit. Suspendisse aliquet, odio at malesuada pulvinar, orci purus ornare metus, ac malesuada ex augue vitae lacus.
-</p>
+<h2 class="mt-6">Inspection du formulaire</h2>
+<div class="mb-2" [style]="{backgroundColor :'white'}">
+  <ngx-json-viewer [json]="form?.getRawValue()"></ngx-json-viewer>
+</div>

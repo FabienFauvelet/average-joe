@@ -13,6 +13,7 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { HttpClientModule } from '@angular/common/http';
 import {PanelModule} from 'primeng/panel';
+import {AutoCompleteModule} from "primeng/autocomplete";
 
 @NgModule({
   declarations: [
@@ -30,8 +31,9 @@ import {PanelModule} from 'primeng/panel';
         DropdownModule,
         InputNumberModule,
         NgxJsonViewerModule,
-      HttpClientModule,
-      PanelModule
+        HttpClientModule,
+        PanelModule,
+        AutoCompleteModule
     ]
 })
 export class CoursesModule { }
