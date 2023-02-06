@@ -8,8 +8,8 @@ interface Teacher {
   lastname:string;
 }
 interface CreateTeacherCommand {
-  firstName:string;
-  lastName:string;
+  firstName?:string|null;
+  lastName?:string|null;
 }
 
 @Injectable({

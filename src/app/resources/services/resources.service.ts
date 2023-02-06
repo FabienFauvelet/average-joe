@@ -7,7 +7,7 @@ interface Resource {
   name:string;
 }
 interface CreateResourceCommand {
-  name:string;
+  name?:string| null;
 }
 
 @Injectable({
