@@ -20,6 +20,7 @@ export class CoursesListComponent implements OnInit{
     this.coursesService.getCoursesList().subscribe(
       value => this.courses = value
     );
+
   }
 
 
@@ -28,7 +29,9 @@ export class CoursesListComponent implements OnInit{
     this.displayEditModal=true;
   }
 
-  deleteCourse(course: Course) {
-
+    deleteCourse(course: Course, rowIndex: any) {
+      this.coursesService.deleteCourse(course.id).subscribe(
+        value => this.courses.splice(rowIndex,1)
+      );
   }
 }

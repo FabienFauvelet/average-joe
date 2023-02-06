@@ -1,4 +1,5 @@
-<p-table  [value]="courses"  styleClass="p-datatable-striped p-datatable-sm">
+<p-table  [value]="courses"  styleClass="p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]">
   <ng-template pTemplate="header">
     <tr>
       <th style="width: 20rem;">ID
@@ -10,17 +11,17 @@
       <th style="width: 8rem;">Actions</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-course>
+  <ng-template pTemplate="body" let-course let-rowIndex="rowIndex">
     <tr>
       <td>{{course.id }}</td>
-      <td>{{course.startDateTime|date :'dd/MM/yy'}}</td>
+      <td>{{course.startDate|date :'dd/MM/yy'}}</td>
       <td>{{course.type}}</td>
-      <td></td>
-      <td>{{course.startDateTime|date :'HH:mm:ss'}}</td>
-      <td>{{course.endDateTime|date :'HH:mm:ss'}}</td>
+      <td>{{course.teacherFirstName}} {{course.teacherLastName}}</td>
+      <td>{{course.startDate|date :'HH:mm:ss'}}</td>
+      <td>{{course.endDate|date :'HH:mm:ss'}}</td>
       <td>
         <button pButton type="button" (click)="editCourse(course)" icon="pi pi-pencil" class="p-button p-button-rounded p-button-icon-only"></button>
-        <button pButton type="button" (click)="deleteCourse(course)" icon="pi pi-trash"  class="p-button p-button-rounded p-button-icon-only p-button-danger"></button>
+        <button pButton type="button" (click)="deleteCourse(course,rowIndex)" icon="pi pi-trash"  class="p-button p-button-rounded p-button-icon-only p-button-danger"></button>
       </td>
     </tr>
   </ng-template>
