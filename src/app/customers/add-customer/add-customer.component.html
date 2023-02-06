@@ -39,8 +39,10 @@
       </span>
     </div>
   </p-panel>
-
-  <p-button [disabled]="!form.valid" class="mt-5" label="Valider" type="submit"></p-button>
+  <div class="flex flex-row mt-5">
+    <p-button [disabled]="!form.valid && !waiting" label="Valider" class="mr-2" type="submit"></p-button>
+    <p-progressSpinner styleClass="custom-spinner" strokeWidth="6" *ngIf="waiting"></p-progressSpinner>
+  </div>
 </form>
 
 

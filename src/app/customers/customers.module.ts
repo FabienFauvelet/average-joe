@@ -9,6 +9,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {NgxJsonViewerModule} from "ngx-json-viewer";
 import {InputTextModule} from 'primeng/inputtext';
 import {TableModule} from "primeng/table";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 
 @NgModule({
@@ -17,14 +18,15 @@ import {TableModule} from "primeng/table";
     CustomersListComponent,
     UpdateCustomerComponent
   ],
-  imports: [
-    CommonModule,
-    CalendarModule,
-    PanelModule,
-    ReactiveFormsModule,
-    NgxJsonViewerModule,
-    InputTextModule,
-    TableModule
-  ]
+    imports: [
+        CommonModule,
+        CalendarModule,
+        PanelModule,
+        ReactiveFormsModule,
+        NgxJsonViewerModule,
+        InputTextModule,
+        TableModule,
+        ProgressSpinnerModule
+    ]
 })
 export class CustomersModule { }
