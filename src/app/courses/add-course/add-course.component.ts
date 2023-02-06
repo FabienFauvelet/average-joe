@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder,Validators} from "@angular/forms";
 import {CoursesService} from "../services/courses.service";
+import {AgendaService} from "../../agenda/agenda.service";
 
 @Component({
   selector: 'app-add-course',
@@ -12,7 +13,7 @@ export class AddCourseComponent implements OnInit{
     startDateTime : [new Date(),Validators.required],
     endDateTime : [new Date(),Validators.required],
     teacherId : [undefined,Validators.required],
-    reservedResources : this.fb.array([/*this.fb.control('')*/]),
+    reservedResources : this.fb.array([]),
     nbMaxParticipant : [0,Validators.required]
   });
   teachers: any[] = [];
@@ -24,11 +25,12 @@ export class AddCourseComponent implements OnInit{
     this.coursesService.getTeacherList().subscribe(value => {
         console.log(value);
         this.teachers = value.map(
-          teacher => {return {id: teacher.id,label:teacher.firstName+' '+teacher.lastName}}
+          teacher => {return {id: teacher.id,label:teacher.firstname+' '+teacher.lastname}}
         );
       }
     );
-    this.coursesService.getResourceList().subscribe(value => this.resources=value);
+    this.coursesService.getResourceList().subscribe(resources => {this.resources=resources.map(resource => {return {id:resource.id,label:resource.name}});});
+
   }
   get reservedResources() {
     return this.form.get('reservedResources') as FormArray;
