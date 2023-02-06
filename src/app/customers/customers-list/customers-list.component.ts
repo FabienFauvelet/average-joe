@@ -22,7 +22,9 @@ export class CustomersListComponent implements OnInit{
 
   }
 
-  deleteCustomer(customer: any) {
-
+  deleteCustomer(customer: Customer, rowIndex: number) {
+    this.customersService.deleteCustomer(customer.id).subscribe(
+      value => this.customers.splice(rowIndex,1)
+    )
   }
 }

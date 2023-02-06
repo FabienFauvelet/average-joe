@@ -1,4 +1,5 @@
-<p-table  [value]="customers"  styleClass="p-datatable-striped p-datatable-sm">
+<p-table  [value]="customers"  styleClass="p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]">
   <ng-template pTemplate="header">
     <tr>
       <th style="width: 20rem;">ID</th>
@@ -9,7 +10,7 @@
       <th style="width: 8rem;">Actions</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-customer>
+  <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
     <tr>
       <td>{{customer.id }}</td>
       <td>{{customer.firstname}}</td>
@@ -18,7 +19,7 @@
       <td>{{customer.address}}</td>
       <td>
         <button pButton type="button" (click)="editCustomer(customer)" icon="pi pi-pencil" class="p-button p-button-rounded p-button-icon-only"></button>
-        <button pButton type="button" (click)="deleteCustomer(customer)" icon="pi pi-trash"  class="p-button p-button-rounded p-button-icon-only p-button-danger"></button>
+        <button pButton type="button" (click)="deleteCustomer(customer,rowIndex)" icon="pi pi-trash"  class="p-button p-button-rounded p-button-icon-only p-button-danger"></button>
       </td>
     </tr>
   </ng-template>

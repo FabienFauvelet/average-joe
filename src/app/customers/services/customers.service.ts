@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 interface CreateCustomerCommand {
   firstName?:string| null;
   lastName?:string| null;
+  birthDate?:Date| null;
   address?:Address| null;
 }
 interface Address{
@@ -31,6 +32,10 @@ export class CustomersService {
   }
   addCustomer(createCustomerCommand : CreateCustomerCommand) : Observable<any>{
     return this.http.post<any>("/command/customers", createCustomerCommand);
+  }
+
+  deleteCustomer(id: string) : Observable<any>{
+    return this.http.delete<any>("/command/customers/"+id);
   }
 }
 
