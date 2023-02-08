@@ -54,7 +54,8 @@ export class UpdateCourseComponent implements OnInit,OnChanges{
         nbMaxParticipant: this.form.get('nbMaxParticipant')?.value,
         teacherId: this.form.get('teacherId')?.value,
         reservedResources: localReservedResources.length > 0 ? localReservedResources : null,
-        participants: participants.length > 0 ? participants : null
+        participants: participants.length > 0 ? participants : null,
+        type:this.form.get('type')?.value,
       }).subscribe();
     }
   }
@@ -83,11 +84,11 @@ export class UpdateCourseComponent implements OnInit,OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.course?.startDate.getHours());
     this.form= this.fb.group({
       startDateTime : [this.course?.startDate,Validators.required],
       endDateTime : [this.course?.endDate,Validators.required],
       teacherId : [this.course?.teacherId,Validators.required],
+      type : [this.course?.type,Validators.required],
       reservedResources : this.fb.array(
         this.course?.resources?.map(value => [value,null])||[]
       ),

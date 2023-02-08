@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {firstValueFrom, map, Observable, of} from 'rxjs';
+import {filter, firstValueFrom, map, Observable, of} from 'rxjs';
 import {Course} from "../models/course";
 import {HttpClient} from "@angular/common/http";
 
@@ -18,6 +18,7 @@ interface UpdateEventCommand {
   reservedResources?:string[] | null;
   nbMaxParticipant?:number | null;
   participants?:string[] | null;
+  type?:string[] | null;
 }
 interface Teacher {
   id:string;

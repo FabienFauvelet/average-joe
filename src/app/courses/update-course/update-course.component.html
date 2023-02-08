@@ -20,12 +20,16 @@
         <p-dropdown styleClass="w-full" formControlName="teacherId" [options]="teachers" optionLabel="label" optionValue="id"  placeholder="Coach"></p-dropdown>
         <label for="teacherId">Coach</label>
       </span>
-      <span class="p-float-label w-6">
+      <span class="p-float-label mr-2 w-6">
         <p-inputNumber formControlName="nbMaxParticipant" [showButtons]="true" buttonLayout="horizontal"
                        spinnerMode="horizontal" [min]="0" inputStyleClass="w-full"
                        decrementButtonClass="p-button" decrementButtonIcon="pi pi-minus"
                        incrementButtonClass="p-button" incrementButtonIcon="pi pi-plus"></p-inputNumber>
         <label for="nbMaxParticipant">Nb. max. participant(s)</label>
+      </span>
+      <span class="p-float-label mr-2 w-6">
+        <input pInputText formControlName="type" placeholder="Type">
+        <label for="type">Type</label>
       </span>
     </div>
   </p-panel>
