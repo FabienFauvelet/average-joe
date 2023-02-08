@@ -9,4 +9,5 @@ export interface Course {
   nbMaxParticipant:number;
   teacherFirstName:string;
   teacherLastName:string;
+  alive:boolean;
 }

@@ -18,7 +18,7 @@ export class CoursesListComponent implements OnInit{
 
   ngOnInit(): void {
     this.coursesService.getCoursesList().subscribe(
-      value => this.courses = value
+      value => this.courses = value.filter(value1 => value1.alive)
     );
 
   }
