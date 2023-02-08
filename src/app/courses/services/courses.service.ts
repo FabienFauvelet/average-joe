@@ -9,6 +9,7 @@ interface CreateEventCommand {
   teacherId?:string | null;
   reservedResources?:string[] | null;
   nbMaxParticipant?:number | null;
+  type?:string | null;
 }
 interface UpdateEventCommand {
   id?:string|null;

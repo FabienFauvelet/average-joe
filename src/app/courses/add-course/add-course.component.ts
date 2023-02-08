@@ -14,7 +14,8 @@ export class AddCourseComponent implements OnInit{
     endDateTime : [new Date(),Validators.required],
     teacherId : [undefined,Validators.required],
     reservedResources : this.fb.array([]),
-    nbMaxParticipant : [0,Validators.required]
+    nbMaxParticipant : [0,Validators.required],
+    type:['',Validators.required]
   });
   teachers: any[] = [];
   resources: any[] = [];
@@ -56,7 +57,8 @@ export class AddCourseComponent implements OnInit{
       endDateTime:this.form.get('endDateTime')?.value,
       nbMaxParticipant:this.form.get('nbMaxParticipant')?.value,
       teacherId:this.form.get('teacherId')?.value,
-      reservedResources:localReservedResources.length>0?localReservedResources:null
+      reservedResources:localReservedResources.length>0?localReservedResources:null,
+      type: this.form.get('type')?.value,
     }).subscribe();
   }
 }
