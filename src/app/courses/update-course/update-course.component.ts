@@ -3,6 +3,8 @@ import {Course} from "../models/course";
 import {CoursesService} from "../services/courses.service";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CustomersService} from "../../customers/services/customers.service";
+import {MessageService} from "primeng/api";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-update-course',
@@ -18,7 +20,8 @@ export class UpdateCourseComponent implements OnInit,OnChanges{
   customers: any[]=[];
   filteredCustomers : any;
 
-  constructor(private courseService: CoursesService, private fb: FormBuilder,private customerService: CustomersService) {
+  constructor(private courseService: CoursesService, private fb: FormBuilder,private customerService: CustomersService,
+              private messageService: MessageService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -56,7 +59,18 @@ export class UpdateCourseComponent implements OnInit,OnChanges{
         reservedResources: localReservedResources.length > 0 ? localReservedResources : null,
         participants: participants.length > 0 ? participants : null,
         type:this.form.get('type')?.value,
-      }).subscribe();
+      }).subscribe({
+          next: (value) => {
+            window.location.reload();
+          },
+          error: (error) =>{
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Une erreur est survenue',
+              detail: 'Erreur lors de l\'appel au service de création d\'un client :' + error.status + ' ' + error.statusText
+            })}
+        }
+      );
     }
   }
 
